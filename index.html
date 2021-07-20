@@ -9,16 +9,34 @@
 </head>
 <body>
   <div id="app">
-    <ul>
-      <li v-for="todo in todos">
-        <div>{{ todo.id }}</div>
-        <div v-if="!edit" @click="doEdit">{{ todo.content }}</div>
-        <input v-else type="text" v-model="content">
-        <button @click="removeTodo">
-          削除
-        </button>
-      </li>
-    </ul>
+    <table>
+      <head>
+        <tr>
+          <th>id</th>
+          <th>content</th>
+          <th>remove</th>
+        </tr>
+      </head>
+      <tbody>
+        <tr v-for="todo in todos">
+          <td>{{ todo.id }}</td>
+          <td>
+            <div v-if="!edit" @click="doEdit">{{ todo.content }}</div>
+            <input v-else type="text" v-model="content">
+          </td>
+          <td>
+            <button @click="doEdit()">
+              編集
+            </button>
+          </td>
+          <td>
+            <button @click="removeTodo(todo)">
+              削除
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <input type="text" v-model="content">
     <button @click="addTodo">
       追加

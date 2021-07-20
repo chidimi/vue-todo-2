@@ -20,8 +20,11 @@ const app = Vue.createApp({
     };
   },
   watch: {
-    todos(todos) {
-      todoStorage.save(todos);
+    todos: {
+      handler: function (todos) {
+        todoStorage.save(todos);
+      },
+      deep: true,
     },
   },
   created() {
@@ -35,8 +38,7 @@ const app = Vue.createApp({
     addTodo() {
       const todo = { id: todoStorage.uid++, content: this.content };
       this.todos.push(todo);
-      todoStorage.save(this.todos);
-      content = "";
+      this.content = "";
     },
     editTodo() {},
     doEdit() {
