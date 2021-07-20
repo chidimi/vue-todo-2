@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@next"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <ul>
+      <li v-for="todo in todos">
+        <div>{{ todo.id }}</div>
+        <div v-if="!edit" @click="doEdit">{{ todo.content }}</div>
+        <input v-else type="text" v-model="content">
+        <button @click="removeTodo">
+          削除
+        </button>
+      </li>
+    </ul>
+    <input type="text" v-model="content">
+    <button @click="addTodo">
+      追加
+    </button>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
