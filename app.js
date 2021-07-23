@@ -29,11 +29,19 @@ const app = Vue.createApp({
   },
   created() {
     this.todos = todoStorage.fetch();
+    this.checkTodos = _.cloneDeepWith(this.todos, (val) => {
+      if (!_.isObject(val)) {
+        return false;
+      }
+    });
   },
   methods: {
     removeTodo(todo) {
       const index = this.todos.indexOf(todo);
       this.todos.splice(index, 1);
+    },
+    removeAll() {
+      this.todos = [];
     },
     addTodo() {
       const todo = { id: todoStorage.uid++, content: this.content };
@@ -41,8 +49,8 @@ const app = Vue.createApp({
       this.content = "";
     },
     editTodo() {},
-    doEdit() {
-      this.edit = true;
+    doEdit(index) {
+      this.checkTodos[index].id = true;
     },
   },
 });

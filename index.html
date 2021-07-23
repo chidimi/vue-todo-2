@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/vue@next"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
   <title>Document</title>
 </head>
 <body>
@@ -13,20 +14,27 @@
       <head>
         <tr>
           <th>id</th>
-          <th>content</th>
-          <th>remove</th>
+          <th>内容</th>
+          <th>編集</th>
+          <th>キャンセル</th>
+          <th>削除</th>
         </tr>
       </head>
       <tbody>
-        <tr v-for="todo in todos">
+        <tr v-for="(todo, index) in todos" v-bind:key="todo.id">
           <td>{{ todo.id }}</td>
           <td>
-            <div v-if="!edit" @click="doEdit">{{ todo.content }}</div>
+            <div v-if="!checkTodos[index].id" @click="doEdit">{{ todo.content }}</div>
             <input v-else type="text" v-model="content">
           </td>
           <td>
-            <button @click="doEdit()">
+            <button @click="doEdit(index)">
               編集
+            </button>
+          </td>
+          <td>
+            <button v-bind:disabled="!edit">
+              キャンセル
             </button>
           </td>
           <td>
@@ -41,6 +49,11 @@
     <button @click="addTodo">
       追加
     </button>
+    <div>
+      <button @click="removeAll">
+        全削除
+      </button>
+    </div>
   </div>
   <script src="app.js"></script>
 </body>
