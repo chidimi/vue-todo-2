@@ -1,56 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/vue@next"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <title>Todoアプリ</title>
 </head>
 <body>
+  <header class="header">
+    <h1>Todoアプリ</h1>
+  </header>
   <div id="app">
-    <table>
-      <head>
-        <tr>
-          <th>id</th>
-          <th>内容</th>
-          <th>編集</th>
-          <th>キャンセル</th>
-          <th>削除</th>
-        </tr>
-      </head>
-      <tbody>
-        <tr v-for="(todo, index) in todos" v-bind:key="todo.id">
-          <td>{{ todo.id }}</td>
-          <td>
-            <div v-if="!checkTodos[index].id" @click="doEdit">{{ todo.content }}</div>
-            <input v-else type="text" v-model="content">
-          </td>
-          <td>
-            <button @click="doEdit(index)">
-              編集
-            </button>
-          </td>
-          <td>
-            <button v-bind:disabled="!edit">
-              キャンセル
-            </button>
-          </td>
-          <td>
-            <button @click="removeTodo(todo)">
-              削除
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ul>
+      <li v-for="(todo, index) in todos" v-bind:key="todo.id">
+        <form v-if="isEditingTodo(todo)"
+        @submit.prevent="editTodo"
+        @reset.prevent="hideEditingTodoFields">
+          <input ref="editingTodoContent" v-model="editingTodoContent" type="text" @keyup.esc="hideEditingTodoFields" />
+          <button class="primary-button" type="submit">確定</button>
+          <button class="danger-button" type="reset">キャンセル</button>
+        </form>
+        <template v-else>
+            {{ todo.content }}
+            <button class="primary-button" @click="showEditingTodoFields(todo)">編集</button>
+            <button class="danger-button" @click="removeTodo(todo)">削除</button>
+        </template>
+      </li>
+    </ul>
     <input type="text" v-model="content">
-    <button @click="addTodo">
+    <button class="primary-button" @click="addTodo">
       追加
     </button>
     <div>
-      <button @click="removeAll">
+      <button class="danger-button" @click="removeAll">
         全削除
       </button>
     </div>

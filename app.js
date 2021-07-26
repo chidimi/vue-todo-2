@@ -16,6 +16,9 @@ var todoStorage = {
 const app = Vue.createApp({
   data() {
     return {
+      editingTodoFieldsVisible: false,
+      editingTodo: "",
+      editingTodoContent: "",
       todos: [],
     };
   },
@@ -29,11 +32,6 @@ const app = Vue.createApp({
   },
   created() {
     this.todos = todoStorage.fetch();
-    this.checkTodos = _.cloneDeepWith(this.todos, (val) => {
-      if (!_.isObject(val)) {
-        return false;
-      }
-    });
   },
   methods: {
     removeTodo(todo) {
@@ -48,9 +46,23 @@ const app = Vue.createApp({
       this.todos.push(todo);
       this.content = "";
     },
-    editTodo() {},
-    doEdit(index) {
-      this.checkTodos[index].id = true;
+    editTodo() {
+      this.editingTodo.content = this.editingTodoContent;
+      this.hideEditingTodoFields();
+    },
+    showEditingTodoFields(todo) {
+      this.editingTodo = todo;
+      this.editingTodoContent = todo.content;
+      this.editingTodoFieldsVisible = true;
+      this.$nextTick(() => {
+        this.$refs.editingTodoContent.select();
+      });
+    },
+    hideEditingTodoFields() {
+      this.editingTodoFieldsVisible = false;
+    },
+    isEditingTodo(todo) {
+      return this.editingTodoFieldsVisible && this.editingTodo.id === todo.id;
     },
   },
 });
