@@ -1,11 +1,11 @@
-var STORAGE_KEY = "todos-vue-demo";
-var todoStorage = {
+const STORAGE_KEY = "todos-vue-demo";
+const todoStorage = {
   fetch: function () {
-    var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
-    todos.forEach(function (todo, index) {
-      todo.id = index;
+    const todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    todos.forEach((todo, index) => {
+      todo.id = index + 1;
     });
-    todoStorage.uid = todos.length;
+    todoStorage.uid = todos.length + 1;
     return todos;
   },
   save: function (todos) {
@@ -16,10 +16,9 @@ var todoStorage = {
 const app = Vue.createApp({
   data() {
     return {
-      editingTodoFieldsVisible: false,
       editingTodo: "",
-      editingTodoContent: "",
       todos: [],
+      content: "",
     };
   },
   watch: {
@@ -47,22 +46,19 @@ const app = Vue.createApp({
       this.content = "";
     },
     editTodo() {
-      this.editingTodo.content = this.editingTodoContent;
       this.hideEditingTodoFields();
     },
     showEditingTodoFields(todo) {
       this.editingTodo = todo;
-      this.editingTodoContent = todo.content;
-      this.editingTodoFieldsVisible = true;
       this.$nextTick(() => {
         this.$refs.editingTodoContent.select();
       });
     },
     hideEditingTodoFields() {
-      this.editingTodoFieldsVisible = false;
+      this.editingTodo = undefined;
     },
     isEditingTodo(todo) {
-      return this.editingTodoFieldsVisible && this.editingTodo.id === todo.id;
+      return this.editingTodo !== undefined && this.editingTodo.id === todo.id;
     },
   },
 });

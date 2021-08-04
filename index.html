@@ -18,7 +18,7 @@
         <form v-if="isEditingTodo(todo)"
         @submit.prevent="editTodo"
         @reset.prevent="hideEditingTodoFields">
-          <input ref="editingTodoContent" v-model="editingTodoContent" type="text" @keyup.esc="hideEditingTodoFields" />
+          <input ref="editingTodoContent" v-model="editingTodo.content" type="text" @keyup.esc="hideEditingTodoFields" />
           <button class="primary-button" type="submit">確定</button>
           <button class="danger-button" type="reset">キャンセル</button>
         </form>
