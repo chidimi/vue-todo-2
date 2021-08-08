@@ -1,0 +1,42 @@
+ul, ol {
+  color: #1e366a;
+  border: dotted #1e366a 1px;/*ドット 色 太さ*/
+  padding: 0.5em 0.5em 0.5em 2em;
+}
+
+ul li, ol li {
+  line-height: 1.5;
+  padding: 0.5em 0;
+}
+
+input {
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.header {
+  background-color: dimgray;
+  color: white;
+}
+
+.primary-button {
+  margin: 0.4rem;
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  background: #4676D7;
+  color: #fff;
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.danger-button {
+  margin: 0.4rem;
+  appearance: none;
+  border: 0;
+  border-radius: 5px;
+  background: red;
+  color: #fff;
+  padding: 6px 14px;
+  font-size: 14px;
+}

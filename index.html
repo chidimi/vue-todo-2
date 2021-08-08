@@ -1,28 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://unpkg.com/vue@next"></script>
-  <title>Document</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <title>Todoアプリ</title>
 </head>
 <body>
+  <header class="header">
+    <h1>Todoアプリ</h1>
+  </header>
   <div id="app">
     <ul>
-      <li v-for="todo in todos">
-        <div>{{ todo.id }}</div>
-        <div v-if="!edit" @click="doEdit">{{ todo.content }}</div>
-        <input v-else type="text" v-model="content">
-        <button @click="removeTodo">
-          削除
-        </button>
+      <li v-for="(todo, index) in todos" v-bind:key="todo.id">
+        <form v-if="isEditingTodo(todo)"
+        @submit.prevent="editTodo"
+        @reset.prevent="hideEditingTodoFields">
+          <input ref="editingTodoContent" v-model="editingTodo.content" type="text" @keyup.esc="hideEditingTodoFields" />
+          <button class="primary-button" type="submit">確定</button>
+          <button class="danger-button" type="reset">キャンセル</button>
+        </form>
+        <template v-else>
+            {{ todo.content }}
+            <button class="primary-button" @click="showEditingTodoFields(todo)">編集</button>
+            <button class="danger-button" @click="removeTodo(todo)">削除</button>
+        </template>
       </li>
     </ul>
     <input type="text" v-model="content">
-    <button @click="addTodo">
+    <button class="primary-button" @click="addTodo">
       追加
     </button>
+    <div>
+      <button class="danger-button" @click="removeAll">
+        全削除
+      </button>
+    </div>
   </div>
   <script src="app.js"></script>
 </body>
